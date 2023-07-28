@@ -14,7 +14,9 @@
     "client:build": "npm run build --workspace=client",
     "client:serve": "npm run serve --workspace=client",
     "server:dev": "npm run dev --workspace=server",
-    "start": "concurrently 'npm:server:dev' 'npm:client:dev'",
+    "server:prod": "npm run serve --workspace=server",
+    "start:dev": "concurrently 'npm:server:dev' 'npm:client:dev'",
+    "start:prod": "npm run client:build && npm run server:prod",
     "stop": "docker-compose down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

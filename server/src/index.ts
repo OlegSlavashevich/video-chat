@@ -1,107 +1,30 @@
 import express, { Express, Request, Response } from 'express';
-import http from 'http';
 import bodyParser from 'body-parser';
-import { Server } from 'socket.io';
-import { ACTIONS } from 'shared';
-import { version, validate } from 'uuid';
+import path from 'path';
+import { socketConnection } from './socket';
+import { createServer } from './server';
+
+const PORT = process.env.PORT || 3001;
 
 const app: Express = express();
-const server = http.createServer(app);
-const io = new Server(server);
+
+const { server, type, host } = createServer(app);
+
+socketConnection(server);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 3001;
+if (process.env.NODE_ENV === 'prod') {
+  const publicPath = path.join(__dirname, '../..', '/client/dist');
 
-function getClientRooms() {
-  const { rooms } = io.sockets.adapter;
+  app.use(express.static(publicPath));
 
-  return Array.from(rooms.keys()).filter((roomID) => validate(roomID) && version(roomID) === 4);
-}
-
-function shareRoomsInfo() {
-  io.emit(ACTIONS.SHARE_ROOMS, {
-    rooms: getClientRooms()
+  app.get('*', (_: Request, res: Response) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
   });
 }
-
-io.on('connection', (socket) => {
-  shareRoomsInfo();
-
-  socket.on(ACTIONS.JOIN, (config) => {
-    const { room: roomID } = config;
-    const { rooms: joinedRooms } = socket;
-
-    if (Array.from(joinedRooms).includes(roomID)) {
-      return console.warn(`Already joined to ${roomID}`);
-    }
-
-    const clients = Array.from(io.sockets.adapter.rooms.get(roomID) || []);
-
-    clients.forEach((clientID) => {
-      io.to(clientID).emit(ACTIONS.ADD_PEER, {
-        peerID: socket.id,
-        createOffer: false
-      });
-
-      socket.emit(ACTIONS.ADD_PEER, {
-        peerID: clientID,
-        createOffer: true
-      });
-    });
-
-    socket.join(roomID);
-    shareRoomsInfo();
-  });
-
-  function leaveRoom() {
-    const { rooms } = socket;
-
-    Array.from(rooms)
-      // LEAVE ONLY CLIENT CREATED ROOM
-      .filter((roomID) => validate(roomID) && version(roomID) === 4)
-      .forEach((roomID) => {
-        const clients = Array.from(io.sockets.adapter.rooms.get(roomID) || []);
-
-        clients.forEach((clientID) => {
-          io.to(clientID).emit(ACTIONS.REMOVE_PEER, {
-            peerID: socket.id
-          });
-
-          socket.emit(ACTIONS.REMOVE_PEER, {
-            peerID: clientID
-          });
-        });
-
-        socket.leave(roomID);
-      });
-
-    shareRoomsInfo();
-  }
-
-  socket.on(ACTIONS.LEAVE, leaveRoom);
-  socket.on('disconnecting', leaveRoom);
-
-  socket.on(ACTIONS.RELAY_SDP, ({ peerID, sessionDescription }) => {
-    io.to(peerID).emit(ACTIONS.SESSION_DESCRIPTION, {
-      peerID: socket.id,
-      sessionDescription
-    });
-  });
-
-  socket.on(ACTIONS.RELAY_ICE, ({ peerID, iceCandidate }) => {
-    io.to(peerID).emit(ACTIONS.ICE_CANDIDATE, {
-      peerID: socket.id,
-      iceCandidate
-    });
-  });
-});
-
-app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Hello World!' });
-});
 
 server.listen(PORT, async () => {
-  console.log('Server is running at http://localhost:3001');
+  console.log(`Server is running at ${type}://${host}:${PORT}`);
 });

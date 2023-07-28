@@ -9,6 +9,11 @@ const options = {
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const socket = io('http://localhost:3001', options);
+const socket = io(
+  {
+    path: '/websocket'
+  },
+  options
+);
 
 export default socket;
