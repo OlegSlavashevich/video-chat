@@ -1,1 +1,1 @@
-export const test = 'oleg1';
+export * from './actions';
