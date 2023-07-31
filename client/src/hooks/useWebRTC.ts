@@ -196,10 +196,7 @@ export default function useWebRTC(roomID: string) {
     async function startCapture() {
       const userMediaStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: {
-          width: 1280,
-          height: 720
-        }
+        video: true
       });
 
       if (!userMediaStream) return;
@@ -233,8 +230,26 @@ export default function useWebRTC(roomID: string) {
     peerMediaElements.current[id] = node;
   }, []);
 
+  const switchVideoStream = () => {
+    const videoTrack = localMediaStream?.current?.getVideoTracks()[0];
+
+    if (!videoTrack) return;
+
+    videoTrack.enabled = !videoTrack.enabled;
+  };
+
+  const switchAudioStream = () => {
+    const videoTrack = localMediaStream?.current?.getAudioTracks()[0];
+
+    if (!videoTrack) return;
+
+    videoTrack.enabled = !videoTrack.enabled;
+  };
+
   return {
     clients,
-    provideMediaRef
+    provideMediaRef,
+    switchVideoStream,
+    switchAudioStream
   };
 }
