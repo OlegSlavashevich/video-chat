@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import freeice from 'freeice';
 import { useCallback, useEffect, useRef } from 'react';
 import { ACTIONS } from 'shared';
 
@@ -52,7 +49,7 @@ export default function useWebRTC(roomID: string) {
       }
 
       peerConnections.current[peerID] = new RTCPeerConnection({
-        iceServers: freeice()
+        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
       });
 
       peerConnections.current[peerID].onicecandidate = (event) => {
