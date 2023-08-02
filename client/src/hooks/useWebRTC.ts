@@ -53,8 +53,29 @@ export default function useWebRTC(roomID: string) {
 
       peerConnections.current[peerID] = new RTCPeerConnection({
         iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'turn:64.233.165.127:19305?transport=udp' }
+          {
+            urls: 'stun:stun.relay.metered.ca:80'
+          },
+          {
+            urls: 'turn:a.relay.metered.ca:80',
+            username: '1bbfa9f89ce264f7e58ea791',
+            credential: '8i4zSKHxZj7MHx+w'
+          },
+          {
+            urls: 'turn:a.relay.metered.ca:80?transport=tcp',
+            username: '1bbfa9f89ce264f7e58ea791',
+            credential: '8i4zSKHxZj7MHx+w'
+          },
+          {
+            urls: 'turn:a.relay.metered.ca:443',
+            username: '1bbfa9f89ce264f7e58ea791',
+            credential: '8i4zSKHxZj7MHx+w'
+          },
+          {
+            urls: 'turn:a.relay.metered.ca:443?transport=tcp',
+            username: '1bbfa9f89ce264f7e58ea791',
+            credential: '8i4zSKHxZj7MHx+w'
+          }
         ]
       });
 
