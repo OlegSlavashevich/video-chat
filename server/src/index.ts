@@ -16,9 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'start' || process.env.NODE_ENV === 'prod') {
-  // const publicPath = path.join(__dirname, '../..', '/client/dist');
-
-  const publicPath = path.join(__dirname, '..', '/build');
+  const publicPath = path.join(__dirname, '../..', '/client/dist');
 
   app.use(express.static(publicPath));
 
