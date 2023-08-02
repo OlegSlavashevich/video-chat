@@ -6,7 +6,7 @@ import fs from 'fs';
 import ip from 'ip';
 
 export const createServer = (app: Express) => {
-  if (process.env.NODE_ENV === 'prod') {
+  if (process.env.NODE_ENV === 'host') {
     const keyPath = path.join(__dirname, '../', '/cert/server.key');
     const certPath = path.join(__dirname, '../', '/cert/server.cert');
 
