@@ -1,5 +1,5 @@
 .room {
-  position: relative;
-  background-color: #1c1c1e;
-  height: 100vh;
+  display: flex;
+  justify-content: center;
+  height: 90vh;
 }

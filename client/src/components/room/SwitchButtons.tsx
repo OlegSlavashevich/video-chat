@@ -30,6 +30,8 @@ const SwitchButtons: FC<IProps> = ({
     }
   };
 
+  const buttonSize = 28;
+
   return (
     <div className="buttons">
       <button
@@ -37,9 +39,9 @@ const SwitchButtons: FC<IProps> = ({
         className="mr-2 flex items-center justify-center  rounded-full border-[0.5px] p-4"
       >
         {audioOn ? (
-          <BiMicrophone color="white" size={28} />
+          <BiMicrophone color="white" size={buttonSize} />
         ) : (
-          <BiMicrophoneOff color="red" size={28} />
+          <BiMicrophoneOff color="red" size={buttonSize} />
         )}
       </button>
       <button
@@ -47,9 +49,9 @@ const SwitchButtons: FC<IProps> = ({
         className="ml-2 flex items-center justify-center  rounded-full border-[0.5px] p-4"
       >
         {videoOn ? (
-          <BiVideo color="white" size={28} />
+          <BiVideo color="white" size={buttonSize} />
         ) : (
-          <BiVideoOff color="red" size={28} />
+          <BiVideoOff color="red" size={buttonSize} />
         )}
       </button>
     </div>

@@ -21,8 +21,8 @@ const VideoList: FC<IProps> = ({ clients, provideMediaRef }) => {
     const videoCount = document.getElementsByTagName('video').length;
 
     const { width, height, cols } = calculateLayout(
-      screenWidth,
-      screenHeight,
+      screenWidth - (clients.length > 1 ? 40 : 0),
+      screenHeight * 0.76,
       videoCount,
       aspectRatio
     );
