@@ -11,10 +11,11 @@
   },
   "dependencies": {
     "freeice": "^2.2.2",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2",
     "react-icons": "^4.10.1",
+    "react-router-dom": "^6.14.2",
     "socket.io-client": "^4.7.1",
     "uuid": "^9.0.0"
   },
@@ -25,6 +26,7 @@
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
+    "@types/lodash": "^4.14.196",
     "@vitejs/plugin-react-swc": "^3.2.0",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.36.0",
