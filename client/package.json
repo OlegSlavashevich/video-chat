@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "vite --host",
-    "build": "tsc && vite build",
+    "build": "npx tsc && vite build",
     "serve": "vite preview",
     "lint": "eslint src --max-warnings=0",
-    "types": "tsc --project tsconfig.json --noEmit"
+    "types": "npx tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
     "freeice": "^2.2.2",
