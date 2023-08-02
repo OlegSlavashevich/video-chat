@@ -1,5 +1,8 @@
 # Video-chat
 
+# Deploy:
+https://video-chat-production-3579.up.railway.app/
+
 ## Host mode:
 1. npm i
 2. cd server
